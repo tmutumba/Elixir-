@@ -52,24 +52,16 @@ defmodule EchoServer do
   end
 
   defp write_line(line, socket) do
-    Logger.info "Trying to write..."
 
     :gen_tcp.send(socket, line)
-    Logger.info "Wrote"
 
   end
 
   defp read_file(file_path) do
-    Logger.info "trying to read..."
       if not is_nil(file_path) do
-        Logger.info ("x"<>file_path<>"x")
-        if File.exists?(file_path) do
-            // exits
-        else
-            //404
-        end
+        Logger.info (""<>file_path<>"")
         try do
-          "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nConnection: close\r\n\r\n"<>File.read!(file_path)
+          File.read!(file_path)
         rescue
           _ in FileError ->
             "HTTP/1.1 404 Not Found\r\nContent-Type: text/html\r\nConnection: close\r\n\r\n"<>File.read!("404File.html")
